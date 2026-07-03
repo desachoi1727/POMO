@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>POMO</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="logo">POMO</div>
+    <div class="header-right">
+      <div class="date" id="date"></div>
+      <div class="sessions-badge"><span class="dot"></span><span id="sessionsCount">0</span> SESSIONS</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="timer">타이머</button>
+    <button class="tab-btn" data-tab="routine">루틴</button>
+  </nav>
+
+  <!-- TIMER TAB -->
+  <section class="tab-panel active" id="timer-panel">
+
+    <div class="mode-select">
+      <button class="mode-box" data-mode="focus">
+        <span class="mode-value" id="focusMinLabel">70</span>
+        <span class="mode-label">집중</span>
+      </button>
+      <button class="mode-box" data-mode="break">
+        <span class="mode-value" id="breakMinLabel">15</span>
+        <span class="mode-label">휴식</span>
+      </button>
+      <button class="mode-box" data-mode="longBreak">
+        <span class="mode-value" id="longBreakMinLabel">30</span>
+        <span class="mode-label">긴 휴식</span>
+      </button>
+    </div>
+
+    <div class="timer-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 300 300">
+          <circle class="ring-track" cx="150" cy="150" r="130"></circle>
+          <circle class="ring-progress" id="ringProgress" cx="150" cy="150" r="130"></circle>
+        </svg>
+        <div class="ring-center">
+          <div class="time" id="timeDisplay">70:00</div>
+          <div class="mode-tag" id="modeTag">집중</div>
+        </div>
+      </div>
+
+      <div class="dots" id="cycleDots">
+        <span class="dot-mark"></span>
+        <span class="dot-mark"></span>
+        <span class="dot-mark"></span>
+        <span class="dot-mark"></span>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-reset" id="resetBtn">리셋</button>
+        <button class="btn btn-start" id="startBtn">시작</button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="statSessions">0</div>
+        <div class="stat-label">완료 세션</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><span id="statMinutes">0</span><span class="stat-unit">분</span></div>
+        <div class="stat-label">집중 시간</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><span id="statRoutine">0</span>%</div>
+        <div class="stat-label">루틴 달성</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ROUTINE TAB -->
+  <section class="tab-panel" id="routine-panel">
+    <div class="routine-header">
+      <h2>오늘의 루틴</h2>
+      <div class="routine-count"><span id="routineDone">0</span> / <span id="routineTotal">0</span></div>
+    </div>
+    <div class="routine-progress-track">
+      <div class="routine-progress-fill" id="routineProgressFill"></div>
+    </div>
+
+    <ul class="routine-list" id="routineList"></ul>
+
+    <div class="routine-add-row">
+      <input type="text" id="routineInput" class="routine-input" placeholder="루틴 추가..." maxlength="60" />
+      <button class="routine-add-btn" id="routineAddBtn">+</button>
+    </div>
+  </section>
+
+</div>
+
+<audio id="alarmSound" preload="auto">
+  <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+</audio>
+
+<script src="script.js"></script>
+</body>
+</html>
