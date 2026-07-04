@@ -1,18 +1,18 @@
 const DURATIONS = {
-  focus: 70 * 60,
+  focus: 60 * 60,
   focus45: 45 * 60,
-  break: 15 * 60,
+  focus10: 10 * 60,
   longBreak: 30 * 60,
 };
 
 const MODE_LABEL = {
   focus: "집중",
   focus45: "집중 45",
-  break: "휴식",
-  longBreak: "긴 휴식",
+  focus10: "집중 10",
+  longBreak: "휴식",
 };
 
-const FOCUS_MODES = new Set(["focus", "focus45"]);
+const FOCUS_MODES = new Set(["focus", "focus45", "focus10"]);
 
 const STORAGE_KEY = "pomo_state_v1";
 const WEEKDAYS_KR = ["일", "월", "화", "수", "목", "금", "토"];
@@ -39,8 +39,8 @@ function loadState() {
     focusMinutes: 0,
     cycleIndex: 0,
     routines: [
-      { id: 1, text: "Meeting - Group A", done: false },
-      { id: 2, text: "Workout", done: false },
+      { id: 1, text: "Workout", done: false },
+      { id: 2, text: "Meeting - Group A", done: false },
     ],
   };
 
@@ -120,7 +120,6 @@ function setStartBtnLabel() {
 
 function applyModeUI() {
   modeBoxes.forEach((box) => box.classList.toggle("active", box.dataset.mode === currentMode));
-  timerCard.classList.toggle("mode-break", currentMode === "break");
   timerCard.classList.toggle("mode-longBreak", currentMode === "longBreak");
   modeTag.textContent = MODE_LABEL[currentMode];
   timeDisplay.textContent = formatTime(remaining);
@@ -161,7 +160,7 @@ function onSessionComplete() {
     saveState();
     updateStats();
     updateDots();
-    switchMode(state.cycleIndex === 0 ? "longBreak" : "break");
+    switchMode("longBreak");
   } else {
     switchMode("focus");
   }

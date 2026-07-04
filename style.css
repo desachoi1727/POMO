@@ -170,21 +170,15 @@ body {
 }
 
 .mode-box.active[data-mode="focus"],
-.mode-box.active[data-mode="focus45"] {
+.mode-box.active[data-mode="focus45"],
+.mode-box.active[data-mode="focus10"] {
   border-color: var(--red);
   box-shadow: 0 0 14px rgba(255, 45, 45, 0.25) inset;
 }
 .mode-box.active[data-mode="focus"] .mode-value,
-.mode-box.active[data-mode="focus45"] .mode-value {
+.mode-box.active[data-mode="focus45"] .mode-value,
+.mode-box.active[data-mode="focus10"] .mode-value {
   color: var(--red);
-}
-
-.mode-box.active[data-mode="break"] {
-  border-color: var(--green);
-  box-shadow: 0 0 14px rgba(198, 255, 46, 0.25) inset;
-}
-.mode-box.active[data-mode="break"] .mode-value {
-  color: var(--green);
 }
 
 .mode-box.active[data-mode="longBreak"] {
@@ -217,7 +211,6 @@ body {
   transition: border-color 0.15s ease;
 }
 
-.timer-card.mode-break .corner { border-color: var(--green); }
 .timer-card.mode-longBreak .corner { border-color: var(--yellow); }
 
 .corner-tl {
@@ -343,10 +336,6 @@ body {
   color: var(--red);
 }
 
-.timer-card.mode-break .btn-start {
-  border-color: var(--green);
-  color: var(--green);
-}
 .timer-card.mode-longBreak .btn-start {
   border-color: var(--yellow);
   color: var(--yellow);
@@ -358,11 +347,6 @@ body {
   box-shadow: 0 0 16px rgba(255, 45, 45, 0.45);
 }
 
-.timer-card.mode-break .btn-start.running {
-  background: var(--green);
-  color: #0a0707;
-  box-shadow: 0 0 16px rgba(198, 255, 46, 0.45);
-}
 .timer-card.mode-longBreak .btn-start.running {
   background: var(--yellow);
   color: #0a0707;
