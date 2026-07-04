@@ -1,14 +1,18 @@
 const DURATIONS = {
   focus: 70 * 60,
+  focus45: 45 * 60,
   break: 15 * 60,
   longBreak: 30 * 60,
 };
 
 const MODE_LABEL = {
   focus: "집중",
+  focus45: "집중 45",
   break: "휴식",
   longBreak: "긴 휴식",
 };
+
+const FOCUS_MODES = new Set(["focus", "focus45"]);
 
 const STORAGE_KEY = "pomo_state_v1";
 const WEEKDAYS_KR = ["일", "월", "화", "수", "목", "금", "토"];
@@ -35,7 +39,7 @@ function loadState() {
     focusMinutes: 0,
     cycleIndex: 0,
     routines: [
-      { id: 1, text: "중요 연락 처리", done: false },
+      { id: 1, text: "Meeting - Group A", done: false },
       { id: 2, text: "Workout", done: false },
     ],
   };
@@ -149,10 +153,10 @@ function onSessionComplete() {
   stopTimer();
   playAlarm();
 
-  if (currentMode === "focus") {
+  if (FOCUS_MODES.has(currentMode)) {
     state.sessionsToday += 1;
     state.completedSessions += 1;
-    state.focusMinutes += Math.round(DURATIONS.focus / 60);
+    state.focusMinutes += Math.round(DURATIONS[currentMode] / 60);
     state.cycleIndex = (state.cycleIndex + 1) % 4;
     saveState();
     updateStats();

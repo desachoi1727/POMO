@@ -139,8 +139,8 @@ body {
 /* mode select */
 .mode-select {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   margin-bottom: 18px;
 }
 
@@ -148,7 +148,7 @@ body {
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: 14px;
-  padding: 16px 8px;
+  padding: 14px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,20 +159,23 @@ body {
 }
 
 .mode-value {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
 }
 
 .mode-label {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
+  white-space: nowrap;
 }
 
-.mode-box.active[data-mode="focus"] {
+.mode-box.active[data-mode="focus"],
+.mode-box.active[data-mode="focus45"] {
   border-color: var(--red);
   box-shadow: 0 0 14px rgba(255, 45, 45, 0.25) inset;
 }
-.mode-box.active[data-mode="focus"] .mode-value {
+.mode-box.active[data-mode="focus"] .mode-value,
+.mode-box.active[data-mode="focus45"] .mode-value {
   color: var(--red);
 }
 
