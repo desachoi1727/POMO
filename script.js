@@ -211,6 +211,69 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
 const routineList = $("routineList");
 const routineInput = $("routineInput");
 
+let dragState = null;
+
+function attachDragHandlers(li, handle) {
+  handle.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    dragState = { pointerId: e.pointerId, li, startY: e.clientY };
+    li.classList.add("dragging");
+    document.body.style.userSelect = "none";
+
+    const onMove = (ev) => {
+      if (!dragState || dragState.pointerId !== ev.pointerId) return;
+      const deltaY = ev.clientY - dragState.startY;
+      li.style.transform = `translateY(${deltaY}px)`;
+
+      const liRect = li.getBoundingClientRect();
+      const liMid = liRect.top + liRect.height / 2;
+
+      const prev = li.previousElementSibling;
+      if (prev && prev.classList.contains("routine-item")) {
+        const prevRect = prev.getBoundingClientRect();
+        if (liMid < prevRect.top + prevRect.height / 2) {
+          routineList.insertBefore(li, prev);
+          dragState.startY = ev.clientY;
+          li.style.transform = "translateY(0px)";
+          return;
+        }
+      }
+
+      const next = li.nextElementSibling;
+      if (next && next.classList.contains("routine-item")) {
+        const nextRect = next.getBoundingClientRect();
+        if (liMid > nextRect.top + nextRect.height / 2) {
+          routineList.insertBefore(li, next.nextSibling);
+          dragState.startY = ev.clientY;
+          li.style.transform = "translateY(0px)";
+        }
+      }
+    };
+
+    const onUp = (ev) => {
+      if (!dragState || dragState.pointerId !== ev.pointerId) return;
+      li.style.transform = "";
+      li.classList.remove("dragging");
+      document.body.style.userSelect = "";
+      dragState = null;
+
+      const newOrder = [...routineList.children]
+        .filter((el) => el.classList.contains("routine-item"))
+        .map((el) => Number(el.dataset.id));
+      state.routines.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+      saveState();
+
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
+      document.removeEventListener("pointercancel", onUp);
+    };
+
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
+    document.addEventListener("pointercancel", onUp);
+  });
+}
+
 function renderRoutines() {
   routineList.innerHTML = "";
 
@@ -224,6 +287,14 @@ function renderRoutines() {
   state.routines.forEach((routine) => {
     const li = document.createElement("li");
     li.className = "routine-item" + (routine.done ? " done" : "");
+    li.dataset.id = routine.id;
+
+    const dragHandle = document.createElement("button");
+    dragHandle.className = "routine-drag";
+    dragHandle.type = "button";
+    dragHandle.setAttribute("aria-label", "순서 변경");
+    dragHandle.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
 
     const checkBtn = document.createElement("button");
     checkBtn.className = "routine-check";
@@ -250,10 +321,13 @@ function renderRoutines() {
       updateStats();
     });
 
+    li.appendChild(dragHandle);
     li.appendChild(checkBtn);
     li.appendChild(text);
     li.appendChild(delBtn);
     routineList.appendChild(li);
+
+    attachDragHandlers(li, dragHandle);
   });
 
   const total = state.routines.length;

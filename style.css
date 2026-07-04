@@ -455,6 +455,42 @@ body {
   padding: 18px 16px;
 }
 
+.routine-item.dragging {
+  position: relative;
+  z-index: 10;
+  opacity: 0.92;
+  border-color: var(--yellow);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+}
+
+.routine-drag {
+  flex-shrink: 0;
+  width: 20px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--yellow);
+  opacity: 0.45;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.routine-drag:active {
+  cursor: grabbing;
+  opacity: 0.9;
+}
+
+.routine-drag svg {
+  width: 16px;
+  height: 16px;
+}
+
 .routine-check {
   flex-shrink: 0;
   width: 24px;
